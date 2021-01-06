@@ -8,6 +8,7 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements Response.ErrorLis
     private boolean recordingStatus = false;
 
     private Button recordButton;
+    private EditText etUserName,etPostTitle,etPostDescription;
     Recorder recorder;
 
     @Override
@@ -50,6 +52,10 @@ public class MainActivity extends AppCompatActivity implements Response.ErrorLis
         setContentView(R.layout.activity_main);
 
         recordButton = findViewById(R.id.btnRecord);
+        etUserName = findViewById(R.id.etUserName);
+        etPostTitle = findViewById(R.id.etPostTitle);
+        etPostDescription = findViewById(R.id.etPostDescription);
+
         fileName = getExternalCacheDir().getAbsolutePath();
         fileName += "/audiorecordtest.wav";
 
@@ -123,55 +129,25 @@ public class MainActivity extends AppCompatActivity implements Response.ErrorLis
         }
     }
 
-//    @Override
-//    public void onStop() {
-//        super.onStop();
-//        if (mRecorder != null) {
-//            mRecorder.release();
-//            mRecorder = null;
-//        }
-//    }
-
-//    private void startRecording() {
-//        Log.d(TAG, "startRecording: Configuring");
-//        mRecorder = new MediaRecorder();
-//        mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-//        mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-//        mRecorder.setOutputFile(fileName);
-//        mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-//
-//        try {
-//            mRecorder.prepare();
-//        } catch (IOException e) {
-//            Log.e(TAG, "startRecording: Prepare Failed" );
-//        }
-//        Log.d(TAG, "startRecording: Starting");
-//        mRecorder.start();
-//    }
-
-//    private void stopRecording() {
-//        Log.d(TAG, "stopRecording: Stopping Recording");
-//        mRecorder.stop();
-//        mRecorder.reset();
-//        mRecorder.release();
-//        mRecorder = null;
-//    }
-
-
     public void send(View view){
         uploadData();
     }
 
     private void uploadData() {
         Log.d(TAG, "uploadData: Uploading Data");
-        File audioFile = new File(fileName);
-        WebService.getInstance().updateProfile(MainActivity.this,
-                "appl_doc",
-                "appliance",
-                "1",
-                audioFile,
-                this,
-                this);
+        String username = etUserName.getText().toString();
+        String title = etPostTitle.getText().toString();
+        String description = etPostDescription.getText().toString();
+        if(!username.isEmpty() && !title.isEmpty() && !description.isEmpty()) {
+            File audioFile = new File(fileName);
+            WebService.getInstance().updateProfile(MainActivity.this,
+                    username,
+                    title,
+                    description,
+                    audioFile,
+                    this,
+                    this);
+        }
     }
 
     @Override
