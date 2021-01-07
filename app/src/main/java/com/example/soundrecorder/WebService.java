@@ -1,3 +1,5 @@
+//https://www.semicolonworld.com/question/44803/how-to-send-a-multipart-form-data-post-in-android-with-volley
+
 package com.example.soundrecorder;
 
 import android.content.Context;
@@ -22,26 +24,27 @@ public class WebService {
         }
         return apiRequests;
     }
-    public void updateProfile(Context context,
-                              String username,
-                              String title,
-                              String description,
-                              File file,
-                              Response.Listener<String> listener,
-                              Response.ErrorListener errorListener) {
+    public void createPost(Context context,
+                           String username,
+                           String password,
+                           String title,
+                           String description,
+                           File file,
+                           Response.Listener<String> listener,
+                           Response.ErrorListener errorListener) {
         String url = "https://a17kedjango.herokuapp.com/post/phone/" +
                 "?title=" + title +
-                "&content=" + description +
-                "&username=" +username;
+                "&content=" + description;
         Log.d(TAG, "updateProfile URL: " + url);
-        SimpleMultiPartRequest request = new SimpleMultiPartRequest(Request.Method.POST,
+        SimpleMultiPartRequest request = new SimpleMultiPartRequest(
+                Request.Method.POST,
                 url,
                 listener,
                 errorListener);
 //        request.setParams(data);
         mRequestQueue = RequestManager.getnstance(context);
-//        request.addMultipartParam("parameter_1", "text", doc_name);
-//        request.addMultipartParam("dparameter_2", "text", doc_type);
+        request.addMultipartParam("title", "text", username);
+        request.addMultipartParam("content", "text", password);
 //        request.addMultipartParam("parameter_3", "text", appliance_id);
         request.addFile("audio", file.getPath());
 
