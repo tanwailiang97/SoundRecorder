@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="16dp"
+    android:layout_weight="100">
+
+    <EditText
+        android:id="@+id/etEnterUserName"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:hint="Full Name"
+        android:textSize="25dp"
+        android:gravity="center_horizontal"/>
+
+    <EditText
+        android:id="@+id/etEnterPassword"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:hint="Password"
+        android:layout_below="@+id/etEnterUserName"
+        android:textSize="25dp"
+        android:inputType="textPassword"
+        android:gravity="center_horizontal" />
+
+    <TextView
+        android:id="@+id/DialogUpdate"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Save"
+        android:layout_below="@+id/etEnterPassword"
+        android:textSize="25dp"
+        android:layout_margin="10dp"
+        android:gravity="center_horizontal"
+        />
+
+
+</RelativeLayout>
