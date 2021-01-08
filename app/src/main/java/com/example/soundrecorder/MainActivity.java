@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements Response.ErrorLis
     private Button btnRecord,btnSend;
     private EditText etPostTitle,etPostDescription;
     private TextView tvSending;
-    Recorder recorder;
+    private Recorder recorder;
 
     private SharedPreferences mPreferences;
     private SharedPreferences.Editor mEditor;
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements Response.ErrorLis
     }
 
     private void animateVoice(final float maxPeak) {
-//        btnRecord.animate().scaleX(1 + maxPeak).scaleY(1 + maxPeak).setDuration(10).start();
+        btnRecord.animate().scaleX(1 + maxPeak).scaleY(1 + maxPeak).setDuration(10).start();
     }
 
     private PullableSource mic() {
@@ -148,6 +148,7 @@ public class MainActivity extends AppCompatActivity implements Response.ErrorLis
         }
         else if(!recordingStatus){
             btnRecord.setText("Record");
+
             btnRecord.setBackgroundColor(0xFF6200EE);
             try {
                 recorder.stopRecording();
