@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,7 +48,8 @@ public class MainActivity extends AppCompatActivity implements Response.ErrorLis
     private MediaRecorder mRecorder = null;
     private boolean recordingStatus = false;
 
-    private Button btnRecord,btnSend;
+    private Button btnSend;
+    private ImageButton btnRecord;
     private EditText etPostTitle,etPostDescription;
     private TextView tvSending;
     private Recorder recorder;
@@ -71,10 +73,25 @@ public class MainActivity extends AppCompatActivity implements Response.ErrorLis
         etPostTitle = findViewById(R.id.etPostTitle);
         etPostDescription = findViewById(R.id.etPostDescription);
         tvSending = findViewById(R.id.tvSending);
-        btnRecord.setBackgroundColor(0xFF6200EE);
         btnSend.setBackgroundColor(0xFF6200EE);
+        runTimePermission();
 
 
+    }
+
+
+
+    @Override
+    protected void onDestroy() {
+        if(recorder!=null){
+            try {
+                recorder.stopRecording();
+            } catch (IOException e) {
+                Log.e(TAG, "onDestroy: Stopping Recording "  + e );
+            }
+            recorder = null;
+        }
+        super.onDestroy();
     }
 
     private void setupRecorder() {
@@ -87,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements Response.ErrorLis
     }
 
     private void animateVoice(final float maxPeak) {
-        btnRecord.animate().scaleX(1 + maxPeak).scaleY(1 + maxPeak).setDuration(10).start();
+        //btnRecord.animate().scaleX(1 + maxPeak).scaleY(1 + maxPeak).setDuration(10).start();
     }
 
     private PullableSource mic() {
@@ -134,22 +151,19 @@ public class MainActivity extends AppCompatActivity implements Response.ErrorLis
     }
 
     public void record(View view){
-        runTimePermission();
+
         recordingStatus = !recordingStatus;
         if (recorder == null){
             Log.d(TAG, "record: Setting up recorder");
             setupRecorder();
         }
         if(recordingStatus){
-            btnRecord.setText("Stop Recording");
-            btnRecord.setBackgroundColor(Color.RED);
+            btnRecord.setBackgroundResource(R.drawable.ic_baseline_stop_circle_100);
             Log.d(TAG, "record: Start Recording");
             recorder.startRecording();
         }
         else if(!recordingStatus){
-            btnRecord.setText("Record");
-
-            btnRecord.setBackgroundColor(0xFF6200EE);
+            btnRecord.setBackgroundResource(R.drawable.ic_baseline_radio_button_checked_100);
             try {
                 recorder.stopRecording();
                 recorder = null;
